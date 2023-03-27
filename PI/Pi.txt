@@ -1,0 +1,71 @@
+bl_info = {
+    "name": "New Object",
+    "author": "Your Name Here",
+    "version": (1, 0),
+    "blender": (2, 80, 0),
+    "location": "View3D > Add > Mesh > New Object",
+    "description": "Adds a new Mesh Object",
+    "warning": "",
+    "doc_url": "",
+    "category": "Add Mesh",
+}
+
+import bpy
+from bpy.types import Menu, Operator
+
+# spawn an edit mode selection pie (run while object is in edit mode to get a valid output)
+
+
+
+class MY_BEVEL(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "my.bevel"
+    bl_label = "My Bevel"
+
+    #@classmethod
+    #def poll(cls, context):
+     #   return context.active_object is not None
+
+    def execute(self, context):
+      ##code
+        bpy.ops.object.modifier_add(type='BEVEL')
+        bpy.context.object.modifiers["Bevel"].width = 0.18
+        bpy.ops.object.modifier_set_active(modifier="Bevel")
+        bpy.context.object.modifiers["Bevel"].segments = 3
+        return {'FINISHED'}
+
+
+
+
+
+
+
+
+
+
+class VIEW3D_MT_PIE_template(Menu):
+    # label is displayed at the center of the pie menu.
+    bl_label = "Select Mode"
+
+    def draw(self, context):
+        layout = self.layout
+
+        pie = layout.menu_pie()
+        # operator_enum will just spread all available options
+        # for the type enum of the operator on the pie
+        pie.operator("my.bevel")
+        pie.operator("")
+
+
+def register():
+    bpy.utils.register_class(VIEW3D_MT_PIE_template)
+    bpy.utils.register_class(MY_BEVEL)
+
+def unregister():
+    bpy.utils.unregister_class(VIEW3D_MT_PIE_template)
+    bpy.utils.register_class(MY_BEVEL)
+
+if __name__ == "__main__":
+    register()
+
+    bpy.ops.wm.call_menu_pie(name="VIEW3D_MT_PIE_template")
