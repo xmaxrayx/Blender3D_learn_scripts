@@ -46,9 +46,22 @@ class MY_EXTRUDE_INDIVIDUAL(bpy.types.Operator):
         #bpy.ops.mesh.extrude_faces_move()
         #bpy.ops.view3d.edit.mesh.extrude_faces_move()
         #bpy.ops.view3d.edit_mesh_extrude_manifold_normal()
-        bpy.ops.view3d.edit_mesh_extrude_move_shrink_fatten()
+        #bpy.ops.view3d.edit_mesh_extrude_move_shrink_fatten()
         return {'FINISHED'}
 #extrude individual end
+
+################################################################################################
+#extrude along_normals start
+class MY_EXTRUDE_ALONG_NORMALS(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "myextrude.along"
+    bl_label = "Extrude Along Nromals"
+
+    
+    def execute(self, context):
+        bpy.ops.view3d.edit_mesh_extrude_move_shrink_fatten()
+        return {'FINISHED'}
+#extrude along_normals end
 
 ################################################################################################
 
@@ -72,7 +85,7 @@ class MY_EXTRUDE_MANIFOLD(bpy.types.Operator):
 
 class Extrude_plus_plus(Menu):
     # label is displayed at the center of the pie menu.
-    bl_label = "Select + +"
+    bl_label = "Extrude + +"
 
     def draw(self, context):
         layout = self.layout
@@ -83,6 +96,7 @@ class Extrude_plus_plus(Menu):
         pie.operator("my.extrude")
         pie.operator("myextrude.individual")
         pie.operator("myextrude.manifold")
+        pie.operator("myextrude.along")
 
 
 def register():
@@ -90,6 +104,7 @@ def register():
     bpy.utils.register_class(MY_EXTRUDE)
     bpy.utils.register_class(MY_EXTRUDE_INDIVIDUAL)
     bpy.utils.register_class(MY_EXTRUDE_MANIFOLD)
+    bpy.utils.register_class(MY_EXTRUDE_ALONG_NORMALS)
     
     
 def unregister():
@@ -97,6 +112,7 @@ def unregister():
     bpy.utils.unregister_class(MY_EXTRUDE)
     bpy.utils.unregister_class(MY_EXTRUDE_INDIVIDUAL)
     bpy.utils.unregister_class(MY_EXTRUDE_MANIFOLD)
+    bpy.utils.unregister_class(MY_EXTRUDE_ALONG_NORMALS)
 
 if __name__ == "__main__":
     register()
