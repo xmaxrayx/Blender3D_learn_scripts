@@ -15,8 +15,8 @@ from bpy.types import Menu, Operator
 
 # spawn an edit mode selection pie (run while object is in edit mode to get a valid output)
 # Idname should small
-
-
+###############################################################################################
+#extrude start
 class MY_EXTRUDE(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "my.extrude"
@@ -29,10 +29,13 @@ class MY_EXTRUDE(bpy.types.Operator):
     def execute(self, context):
         bpy.ops.view3d.edit_mesh_extrude_move_normal()
         return {'FINISHED'}
+#extrude end    
 
+##################################################################################################
+#extrude individual start
 class MY_EXTRUDE_INDIVIDUAL(bpy.types.Operator):
     """Tooltip"""
-    bl_idname = "my.extrudeindividual"
+    bl_idname = "myextrude.individual"
     bl_label = "Extrude Individualy"
 
     #@classmethod
@@ -40,12 +43,32 @@ class MY_EXTRUDE_INDIVIDUAL(bpy.types.Operator):
      #   return context.active_object is not None
 
     def execute(self, context):
-        bpy.ops.view3d.edit_mesh_extrude_move_normal()
+        #bpy.ops.mesh.extrude_faces_move()
+        #bpy.ops.view3d.edit.mesh.extrude_faces_move()
+        #bpy.ops.view3d.edit_mesh_extrude_manifold_normal()
+        bpy.ops.view3d.edit_mesh_extrude_move_shrink_fatten()
         return {'FINISHED'}
+#extrude individual end
 
+################################################################################################
 
+#extrude manifold start                        @{
 
+class MY_EXTRUDE_MANIFOLD(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "myextrude.manifold"
+    bl_label = "Extrude Manifold"
 
+    #@classmethod
+    #def poll(cls, context):
+     #   return context.active_object is not None
+
+    def execute(self, context):
+        bpy.ops.view3d.edit_mesh_extrude_manifold_normal()
+        return {'FINISHED'}
+#                                                            }@extrude manifold end
+
+############################################################################################################
 
 class Extrude_plus_plus(Menu):
     # label is displayed at the center of the pie menu.
@@ -58,18 +81,22 @@ class Extrude_plus_plus(Menu):
         # operator_enum will just spread all available options
         # for the type enum of the operator on the pie
         pie.operator("my.extrude")
-        pie.operator("my.extrudeindividual")
+        pie.operator("myextrude.individual")
+        pie.operator("myextrude.manifold")
 
 
 def register():
     bpy.utils.register_class(Extrude_plus_plus)
     bpy.utils.register_class(MY_EXTRUDE)
     bpy.utils.register_class(MY_EXTRUDE_INDIVIDUAL)
+    bpy.utils.register_class(MY_EXTRUDE_MANIFOLD)
+    
     
 def unregister():
     bpy.utils.unregister_class(Extrude_plus_plus)
     bpy.utils.unregister_class(MY_EXTRUDE)
     bpy.utils.unregister_class(MY_EXTRUDE_INDIVIDUAL)
+    bpy.utils.unregister_class(MY_EXTRUDE_MANIFOLD)
 
 if __name__ == "__main__":
     register()
