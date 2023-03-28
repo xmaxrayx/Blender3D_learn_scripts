@@ -30,7 +30,18 @@ class MY_EXTRUDE(bpy.types.Operator):
         bpy.ops.view3d.edit_mesh_extrude_move_normal()
         return {'FINISHED'}
 
+class MY_EXTRUDE_INDIVIDUAL(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "my.extrudeindividual"
+    bl_label = "Extrude Individualy"
 
+    #@classmethod
+    #def poll(cls, context):
+     #   return context.active_object is not None
+
+    def execute(self, context):
+        bpy.ops.view3d.edit_mesh_extrude_move_normal()
+        return {'FINISHED'}
 
 
 
@@ -47,16 +58,18 @@ class Extrude_plus_plus(Menu):
         # operator_enum will just spread all available options
         # for the type enum of the operator on the pie
         pie.operator("my.extrude")
-        pie.operator("")
+        pie.operator("my.extrudeindividual")
 
 
 def register():
     bpy.utils.register_class(Extrude_plus_plus)
     bpy.utils.register_class(MY_EXTRUDE)
+    bpy.utils.register_class(MY_EXTRUDE_INDIVIDUAL)
     
 def unregister():
     bpy.utils.unregister_class(Extrude_plus_plus)
-    bpy.utils.register_class(MY_EXTRUDE)
+    bpy.utils.unregister_class(MY_EXTRUDE)
+    bpy.utils.unregister_class(MY_EXTRUDE_INDIVIDUAL)
 
 if __name__ == "__main__":
     register()
